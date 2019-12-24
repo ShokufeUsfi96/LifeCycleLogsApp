@@ -1,5 +1,6 @@
 package com.usefi.lifecyclelogsapp;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,22 @@ public class TestRecyclerAdapter extends RecyclerView.Adapter<TestRecyclerAdapte
     static class TestViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtItem;
-        public TestViewHolder(@NonNull View itemView) {
+        public TestViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             txtItem = itemView.findViewById(R.id.txtItem);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (getAdapterPosition()){
+                        case 0 :
+                            Intent Pintent = new Intent(view.getContext(), EditProfileActivity.class);
+                            break;
+                    }
+                }
+            });
+
         }
 
 
