@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    tools:context=".MainActivity">
+
+<ImageView
+    android:id="@+id/imgItem"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:scaleType="center"
+    android:layout_marginRight="5dp"/>
+    <TextView
+        android:id="@+id/titleItem"
+        android:textSize="20sp"
+        android:text="the wolf of wallstreet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imgItem"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/dateItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imgItem"
+        android:layout_below="@+id/titleItem"
+        android:layout_marginTop="6dp"
+        android:text="2011-7-9"/>
+    <TextView
+        android:id="@+id/rateItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imgItem"
+        android:layout_alignBottom="@+id/imgItem"
+        android:textSize="20sp"
+        android:text="8.3"
+        android:drawableLeft="@drawable/ic_star"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DADADA"
+        android:layout_below="@+id/imgItem"
+        android:layout_marginTop="10dp"/>
+
+
+</RelativeLayout>

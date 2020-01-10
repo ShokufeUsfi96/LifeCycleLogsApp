@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnDrawer = findViewById(R.id.btnDrawer);
         drawerLayout = findViewById(R.id.drawerLayout);
         RecyclerView recycler = findViewById(R.id.recycler);
-        TestRecyclerAdapter adapter = new TestRecyclerAdapter(arrayList);
+        TestRecyclerAdapter adapter = new TestRecyclerAdapter(arrayList, getApplicationContext());
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this, RecyclerView.VERTICAL, false));
         txtItem = findViewById(R.id.txtItem);
