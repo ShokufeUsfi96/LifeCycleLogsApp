@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.module.AppGlideModule;
 import com.usefi.lifecyclelogsapp.movie.Result;
 import com.usefi.lifecyclelogsapp.movie.SearchMoviesClass;
 
@@ -21,19 +23,10 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.TestViewHolder> {
+public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.TestViewHolder>  {
 
-    List<String> titles, dates, rates,images;
-List<Integer> ids;
-    private Context context;
-    MovieRecyclerAdapter(List<String> titles, List<String> dates, List<String> rates, List<String> images, List<Integer> ids, Context context){
-        this.titles = titles;
-        this.dates = dates;
-        this.rates = rates;
-        this.images = images;
-        this.ids = ids;
-        this.context = context;
-    }
+    List<Result> resultItems = new ArrayList<>();
+    AdapterItemClicked itemCLicked = null;
 
     @NonNull
     @Override
@@ -43,49 +36,58 @@ List<Integer> ids;
         return  holder;
     }
 
+    public void setAdapterItemClicked(AdapterItemClicked itemClicked){
+        this.itemCLicked =itemClicked;
+    }
+    public void setResults(List<Result> resultItems){
+        this.resultItems = resultItems;
+        notifyDataSetChanged();
+    }
 
     @Override
-    public void onBindViewHolder(@NonNull TestViewHolder holder, int position) {
-        String title = titles.get(position);
-        String date = dates.get(position);
-        String rate = rates.get(position);
-        String imageAddress = "http://image.tmdb.org/t/p/w45" + images.get(position);
-        holder.textTitle.setText(title);
-        holder.textDate.setText(date);
-        holder.textRate.setText(rate);
-        Glide.with(holder.imageItem.getContext()).load(imageAddress).into(holder.imageItem);
+    public void onBindViewHolder(@NonNull TestViewHolder holder, final int position) {
 
+        holder.txtTitle.setText(resultItems.get(position).getTitle());
+        holder.txtDate.setText(resultItems.get(position).getReleaseDate());
+        holder.txtRate.setText(resultItems.get(position).getVoteAverage().toString());
+        String imgAddress = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + resultItems.get(position).getPosterPath();
+        Glide.with(holder.imgItem.getContext()).load( imgAddress ).into(holder.imgItem);
+
+        holder.itemContext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemCLicked.itemClicked(resultItems.get(position).getId());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        if (resultItems == null)
+            return 0;
+        else
+        return resultItems.size();
     }
 
     class  TestViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textTitle, textDate, textRate;
-        ImageView imageItem;
-        Intent intent;
+        TextView txtTitle, txtDate, txtRate;
+        ImageView imgItem;
+        RelativeLayout itemContext;
         public TestViewHolder(@NonNull final View itemView) {
             super(itemView);
-            textTitle = itemView.findViewById(R.id.titleItem);
-            textDate = itemView.findViewById(R.id.dateItem);
-            textRate = itemView.findViewById(R.id.rateItem);
-            imageItem = itemView.findViewById(R.id.imgItem);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    intent = new Intent(itemView.getContext(), DetailMoviesActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putIntegerArrayListExtra("IDs", (ArrayList<Integer>)ids);
-                    intent.putExtra("position", pos);
-                    context.startActivity(intent);
-
-                }
-            });
+            txtTitle = itemView.findViewById(R.id.titleItem);
+            txtDate = itemView.findViewById(R.id.dateItem);
+            txtRate = itemView.findViewById(R.id.rateItem);
+            imgItem = itemView.findViewById(R.id.imgItem);
+            itemContext = itemView.findViewById(R.id.itemContext);
         }
+
+
     }
+
+    public  interface AdapterItemClicked{
+        public void itemClicked(int Id);
+    }
+
 }

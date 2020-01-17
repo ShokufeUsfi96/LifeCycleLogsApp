@@ -7,28 +7,42 @@
     android:layout_marginTop="10dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
+    android:paddingTop="8dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="8dp"
+    android:background="@drawable/round_image_style"
+    android:id="@+id/itemContext"
     tools:context=".MainActivity">
 
-<ImageView
-    android:id="@+id/imgItem"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:scaleType="center"
-    android:layout_marginRight="5dp"/>
+<androidx.cardview.widget.CardView
+    android:id="@+id/card"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    app:cardCornerRadius="10dp">
+    <ImageView
+        android:id="@+id/imgItem"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitXY" />
+</androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/titleItem"
         android:textSize="20sp"
         android:text="the wolf of wallstreet"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imgItem"
+        android:layout_toRightOf="@+id/card"
         android:maxLines="1"/>
 
     <TextView
         android:id="@+id/dateItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imgItem"
+        android:layout_toRightOf="@+id/card"
         android:layout_below="@+id/titleItem"
         android:layout_marginTop="6dp"
         android:text="2011-7-9"/>
@@ -36,18 +50,14 @@
         android:id="@+id/rateItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imgItem"
-        android:layout_alignBottom="@+id/imgItem"
+        android:layout_toRightOf="@+id/card"
+        android:layout_alignBottom="@+id/card"
         android:textSize="20sp"
         android:text="8.3"
+        android:textColor="@color/black"
         android:drawableLeft="@drawable/ic_star"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#DADADA"
-        android:layout_below="@+id/imgItem"
-        android:layout_marginTop="10dp"/>
+
 
 
 </RelativeLayout>

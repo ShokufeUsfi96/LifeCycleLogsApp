@@ -22,4 +22,7 @@
     <string name="imsak">Imsak:</string>
     <string name="midnight">Midnight:</string>
     <string name="search_tmdb">Search TMDb</string>
+    <string name="nothing" />
+    <string name="release_date">Release Date:</string>
+    <string name="synopsis">Synopsis:</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -24,7 +25,22 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class SearchMoviesActivity extends AppCompatActivity {
+public class SearchMoviesActivity extends AppCompatActivity implements MovieRecyclerAdapter.AdapterItemClicked {
+    protected void setStatusBarTranslucent(boolean makeTranslucent) {
+        if (makeTranslucent) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
+    EditText edtSearch;
+    Button btnSearch;
+    RecyclerView recycler;
+    MovieRecyclerAdapter movieAdapter;
+
+
+    final String api_key = "df81c065bc532c4094165e8a52c94b14";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +48,13 @@ public class SearchMoviesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_movies);
 
-        Button btnSearch = findViewById(R.id.btnSearch);
-        final EditText edtSearch = findViewById(R.id.edtSearch);
-        final String api_key = "df81c065bc532c4094165e8a52c94b14";
-        final List<String> titles = new ArrayList<>();
-        final List<String> dates = new ArrayList<>();
-        final List<String> rates = new ArrayList<>();
-        final List<String> images = new ArrayList<>();
-        final List<Integer> ids = new ArrayList<>();
-
-        final RecyclerView recycler = findViewById(R.id.recycler);
+        btnSearch = findViewById(R.id.btnSearch);
+        edtSearch = findViewById(R.id.edtSearch);
+        recycler = findViewById(R.id.recycler);
+        movieAdapter = new MovieRecyclerAdapter();
+        recycler.setAdapter(movieAdapter);
+        recycler.setLayoutManager(new LinearLayoutManager(SearchMoviesActivity.this,RecyclerView.VERTICAL,false));
+        movieAdapter.setAdapterItemClicked(this);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,27 +68,9 @@ public class SearchMoviesActivity extends AppCompatActivity {
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
 
-
-                         try {
-                           JSONArray jsonArray = response.getJSONArray("results");
-
-                           for ( int i = 0 ; i< jsonArray.length() ; i++){
-                               JSONObject jsonObject = jsonArray.getJSONObject(i);
-                               String resTitle = jsonObject.getString("title");
-                               String resDate = jsonObject.getString("release_date");
-                               String resRate = jsonObject.getString("vote_average");
-                               String resImage = jsonObject.getString("poster_path");
-                               Integer resIDs = jsonObject.getInt("id");
-                               titles.add(resTitle);
-                               dates.add(resDate);
-                               rates.add(resRate);
-                               images.add(resImage);
-                               ids.add(resIDs);
-                           }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        Gson gson = new Gson();
+                        SearchMoviesClass searchMovieResult = gson.fromJson(response.toString(),SearchMoviesClass.class);
+                        movieAdapter.setResults(searchMovieResult.getResults());
                     }
 
                     @Override
@@ -83,18 +78,23 @@ public class SearchMoviesActivity extends AppCompatActivity {
                         super.onFailure(statusCode, headers, throwable, errorResponse);
                     }
                 });
-
-                MovieRecyclerAdapter movieAdapter = new MovieRecyclerAdapter(titles, dates, rates, images, ids, getApplicationContext());
-                recycler.setAdapter(movieAdapter);
-                recycler.setLayoutManager(new LinearLayoutManager(SearchMoviesActivity.this, RecyclerView.VERTICAL,false));
-
-
                     }
                 });
 
+            }
+
+            public  void itemClicked(int id){
+                Intent intent = new Intent(SearchMoviesActivity.this, DetailMoviesActivity.class);
+                intent.putExtra("itemId", id);
+                startActivity(intent);
 
             }
-        }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+}
 
 
 

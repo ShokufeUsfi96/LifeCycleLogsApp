@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:layout_margin="5dp"
+    android:padding="10dp"
     tools:context=".SearchMoviesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingStart="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/edt_search_style"
+        android:orientation="horizontal"
+        tools:ignore="RtlSymmetry">
         <EditText
             android:id="@+id/edtSearch"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:hint="@string/search_tmdb"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:padding="5dp"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/edittext_style"/>
+            android:background="@null"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff"
+            android:layout_marginEnd="3dp"/>
 
         <Button
             android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_search"
-            android:background="@drawable/button_style"
-            android:paddingEnd="27dp"/>
+            android:background="@color/Transparent"
+            android:paddingEnd="15dp"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>
